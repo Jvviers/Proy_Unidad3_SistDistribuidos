@@ -1,0 +1,53 @@
+/proyecto-distribuido
+│
+├── docker-compose.yml
+│
+├── load-balancer/
+│   ├── nginx.conf
+│   └── Dockerfile
+│
+├── middleware/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── app1-inventario/
+│   ├── src/
+│   │   └── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── app2-ordenes/
+│   ├── src/
+│   │   └── index.js
+│   ├── package.json
+│   └── Dockerfile
+│
+├── app3-reportes/
+│   ├── src/
+│   │   └── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── databases/
+│   ├── mariadb/
+│   │   ├── primary/
+│   │   │   └── Dockerfile
+│   │   └── replica/
+│   │       └── Dockerfile
+│   ├── postgres/
+│   │   ├── primary/
+│   │   │   └── Dockerfile
+│   │   └── replica/
+│   │       └── Dockerfile
+│   └── mysql/
+│       ├── primary/
+│       │   └── Dockerfile
+│       └── replica/
+│           └── Dockerfile
+│
+└── orchestrators/
+    ├── mysql-orchestrator/
+    │   └── Dockerfile
+    └── postgres-patroni/
+        └── Dockerfile

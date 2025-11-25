@@ -1,0 +1,7 @@
+FROM postgres:15
+
+ENV POSTGRES_DB=ordersdb
+ENV POSTGRES_USER=orders
+ENV POSTGRES_PASSWORD=orders123
+
+COPY postgresql.config /etc/postgresql/postgresql.conf

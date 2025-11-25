@@ -1,5 +1,4 @@
-version: "3.9"
-
+﻿
 services:
 
   load-balancer:
@@ -47,6 +46,98 @@ services:
       - backend-net
     ports:
       - "8003:8003"
+
+
+  # ------------------------------
+  # Databases
+  # ------------------------------
+
+  # ------------------------------
+  # MariaDB â€“ App1
+  # ------------------------------
+
+  mariadb-primary:
+    build: ./databases/mariadb/primary
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mariadb_primary_data:/var/lib/mysql
+    networks:
+      - backend-net
+
+  mariadb-replica:
+    build: ./databases/mariadb/replica
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mariadb_replica_data:/var/lib/mysql
+    networks:
+      - backend-net
+    depends_on:
+      - mariadb-primary
+
+  # ------------------------------
+  # PostgreSQL â€“ App2
+  # ------------------------------
+
+  postgres-primary:
+    build: ./databases/postgres/primary
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_primary_data:/var/lib/postgresql/data
+      - ./databases/postgres/primary/postgresql.config:/etc/postgresql/postgresql.conf
+
+    networks:
+      - backend-net
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+
+  postgres-replica:
+    build: ./databases/postgres/replica
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    depends_on:
+      - postgres-primary
+    command: ["postgres"]
+
+  # ------------------------------
+  # MySQL â€“ App3
+  # ------------------------------
+
+  mysql-primary:
+    build: ./databases/mysql/primary
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_primary_data:/var/lib/mysql
+    networks:
+      - backend-net
+
+  mysql-replica:
+    build: ./databases/mysql/replica
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_replica_data:/var/lib/mysql
+    networks:
+      - backend-net
+    depends_on:
+      - mysql-primary
+
+
+volumes:
+  mariadb_primary_data:
+  mariadb_replica_data:
+  postgres_primary_data:
+  postgres_replica_data:
+  mysql_primary_data:
+  mysql_replica_data:
 
 networks:
   backend-net:
