@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  load-balancer:
+    build: ./load-balancer
+    ports:
+      - "8080:80"
+    networks:
+      - backend-net
+    depends_on:
+      - app1-instance-a
+      - app1-instance-b
+      - app2-instance-a
+      - app2-instance-b
+
+  middleware:
+    build: ./middleware
+    ports:
+      - "8000:8000"
+    networks:
+      - backend-net
+
+  app1-instance-a:
+    build: ./app1-inventario
+    networks:
+      - backend-net
+
+  app1-instance-b:
+    build: ./app1-inventario
+    networks:
+      - backend-net
+
+  app2-instance-a:
+    build: ./app2-ordenes
+    networks:
+      - backend-net
+
+  app2-instance-b:
+    build: ./app2-ordenes
+    networks:
+      - backend-net
+
+  app3-reportes:
+    build: ./app3-reportes
+    networks:
+      - backend-net
+    ports:
+      - "8003:8003"
+
+networks:
+  backend-net:
+    driver: bridge
