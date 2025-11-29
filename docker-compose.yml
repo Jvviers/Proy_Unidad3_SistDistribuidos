@@ -19,26 +19,54 @@ services:
       - "8000:8000"
     networks:
       - backend-net
+    environment:
+      APP1_URL: http://app1-instance-a:8001
+      APP2_URL: http://app2-instance-a:8002
+      APP3_URL: http://app3-reportes:8003
 
   app1-instance-a:
     build: ./app1-inventario
     networks:
       - backend-net
+    environment:
+      DB_HOST: mariadb-primary
+      DB_PORT: 3306
+      DB_NAME: inventorydb
+      DB_USER: inventory
+      DB_PASS: inventory123
 
   app1-instance-b:
     build: ./app1-inventario
     networks:
       - backend-net
+    environment:
+      DB_HOST: mariadb-primary
+      DB_PORT: 3306
+      DB_NAME: inventorydb
+      DB_USER: inventory
+      DB_PASS: inventory123
 
   app2-instance-a:
     build: ./app2-ordenes
     networks:
       - backend-net
+    environment:
+      DB_HOST: postgres-primary
+      DB_PORT: 5432
+      DB_NAME: ordersdb
+      DB_USER: orders
+      DB_PASS: orders123
 
   app2-instance-b:
     build: ./app2-ordenes
     networks:
       - backend-net
+    environment:
+      DB_HOST: postgres-primary
+      DB_PORT: 5432
+      DB_NAME: ordersdb
+      DB_USER: orders
+      DB_PASS: orders123
 
   app3-reportes:
     build: ./app3-reportes
@@ -46,6 +74,12 @@ services:
       - backend-net
     ports:
       - "8003:8003"
+    environment:
+      DB_HOST: mysql-primary
+      DB_PORT: 3306
+      DB_NAME: reportsdb
+      DB_USER: reports
+      DB_PASS: reports123
 
 
   # ------------------------------
@@ -59,11 +93,12 @@ services:
   mariadb-primary:
     build: ./databases/mariadb/primary
     ports:
-      - "3306:3306"
+      - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mariadb_primary_data:/var/lib/mysql
+      - ./databases/mariadb/primary/init-master.sql:/docker-entrypoint-initdb.d/init-master.sql
     networks:
       - backend-net
 
@@ -73,6 +108,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mariadb_replica_data:/var/lib/mysql
+      - ./databases/mariadb/replica/init-replica.sh:/docker-entrypoint-initdb.d/init-replica.sh
     networks:
       - backend-net
     depends_on:
@@ -89,6 +125,8 @@ services:
     volumes:
       - postgres_primary_data:/var/lib/postgresql/data
       - ./databases/postgres/primary/postgresql.config:/etc/postgresql/postgresql.conf
+      - ./databases/postgres/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./databases/postgres/primary/init-master.sh:/docker-entrypoint-initdb.d/init-master.sh
 
     networks:
       - backend-net
@@ -98,6 +136,7 @@ services:
     build: ./databases/postgres/replica
     volumes:
       - postgres_replica_data:/var/lib/postgresql/data
+      - ./databases/postgres/replica/replica-entrypoint.sh:/docker-entrypoint-initdb.d/replica-entrypoint.sh
     networks:
       - backend-net
     depends_on:
@@ -116,6 +155,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql_primary_data:/var/lib/mysql
+      - ./databases/mysql/primary/init-master.sql:/docker-entrypoint-initdb.d/init-master.sql
     networks:
       - backend-net
 
@@ -125,6 +165,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql_replica_data:/var/lib/mysql
+      - ./databases/mysql/replica/init-replica.sh:/docker-entrypoint-initdb.d/init-replica.sh
     networks:
       - backend-net
     depends_on:

@@ -1,0 +1,2 @@
+# Enforce LF for scripts (Windows host)
+*.sh text eol=lf
