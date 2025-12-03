@@ -1,2 +1,4 @@
-﻿fastapi
+fastapi
 uvicorn
+pymysql
+cryptography

@@ -1,0 +1,382 @@
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose stop mysql-primary
+[+] Stopping 1/1
+ ✔ Container proy_unidad3_sistdistribuidos-mysql-primary-1  Stopped                                                                                        9.5s 
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose exec mysql-replica mysqladmin ping -uroot -proot
+mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+mysqld is alive
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> Invoke-RestMethod -Method Post -Uri http://localhost:8000/orders -Body '{"product_id":1,"qty":1}' -ContentType 'application/json'
+
+order                                                                             stock                                      report
+-----                                                                             -----                                      ------
+@{id=2; product_id=1; qty=1; status=created; created_at=2025-12-03T14:59:31.068Z} @{id=1; name=Producto de prueba; stock=18} @{id=2; order_id=2; status=crea...
+
+
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose logs --tail=200 mysql-watchdog mysql-haproxy
+mysql-watchdog-1  | [2025-12-03T14:57:37Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:57:37Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  | 
+mysql-watchdog-1  | IP changed from '172.18.0.2' to '172.18.0.4', no need to change the port by 'stats socket command'
+mysql-watchdog-1  | 
+mysql-haproxy-1   | [WARNING]  (7) : Backup Server mysql_cluster/replica is DOWN, reason: Layer4 connection problem, info: "Connection refused at initial connection step of tcp-check", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Backup Server mysql_cluster/replica is DOWN, reason: Layer4 connection problem, info: "Connection refused at initial connection step of tcp-check", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Connect from 172.18.0.12:40600 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Backup Server mysql_cluster/replica is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Backup Server mysql_cluster/replica is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+mysql-haproxy-1   | Connect from 172.18.0.12:59966 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:58206 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:34910 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:55658 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56830 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:32964 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:59700 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:55872 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:48862 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:44698 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:33608 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35896 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:57128 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:51748 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:44442 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:49404 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56604 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:55500 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:44266 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35774 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35782 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35330 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:54176 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:51670 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:44516 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:53844 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:45952 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:47826 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:59826 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:34424 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:46614 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35802 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:38636 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:45076 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:34434 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:51324 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35368 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:57:37Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-haproxy-1   | Connect from 172.18.0.12:56602 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:52544 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:41920 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:40842 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:55570 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35264 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56490 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:54112 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:53560 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:48828 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:47612 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:40680 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:33076 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:43554 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:49032 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:33152 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:58470 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:33042 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:35336 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:41862 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56896 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:40010 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:58264 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:42454 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:43540 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:39694 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56562 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:51614 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:56656 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:44352 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:41274 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:54920 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:45624 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:37350 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:34436 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:37664 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-watchdog-1  | [2025-12-03T14:57:42Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:57:42Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:57:42Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:57:51Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:57:51Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:57:51Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:57:58Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:57:58Z] Promoviendo replica mysql-replica...
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:55764 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:44660 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:33902 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:34278 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:45752 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:33138 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:53206 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:57:58Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:07Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:07Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:07Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:16Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:16Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  | 
+mysql-watchdog-1  | [2025-12-03T14:58:16Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:22Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:22Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:22Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:31Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:31Z] Promoviendo replica mysql-replica...
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:58240 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:39964 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:53242 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:47952 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:36838 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-haproxy-1   | Connect from 172.18.0.12:43184 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Connect from 172.18.0.12:43188 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | Connect from 172.18.0.12:42756 to 172.18.0.7:3306 (mysql_cluster/TCP)
+mysql-haproxy-1   | Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is going DOWN for maintenance. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+mysql-haproxy-1   | Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-haproxy-1   | [WARNING]  (7) : Server mysql_cluster/primary is UP/READY (leaving forced maintenance).
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:31Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:40Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:40Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:41Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:47Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:47Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:47Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:58:56Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:58:56Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:58:56Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:05Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:05Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:05Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:14Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:14Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:14Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:21Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:30Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:39Z] HAProxy actualizado para usar mysql-replica como primary
+mysql-watchdog-1  | [2025-12-03T14:59:45Z] Primario mysql-primary no responde. Intentando promover replica
+mysql-watchdog-1  | [2025-12-03T14:59:45Z] Promoviendo replica mysql-replica...
+mysql-watchdog-1  | mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql-watchdog-1  |
+mysql-watchdog-1  | no need to change the addr, no need to change the port by 'stats socket command'
+mysql-watchdog-1  |
+mysql-watchdog-1  |
+mysql-watchdog-1  | [2025-12-03T14:59:45Z] HAProxy actualizado para usar mysql-replica como primary

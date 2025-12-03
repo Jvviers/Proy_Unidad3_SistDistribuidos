@@ -1,0 +1,342 @@
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose stop postgres-primary
+[+] Stopping 1/1
+ ✔ Container proy_unidad3_sistdistribuidos-postgres-primary-1  Stopped                                                                                     0.3s 
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose exec postgres-replica pg_isready -h postgres-replica -U orders -d ordersdb
+postgres-replica:5432 - accepting connections
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose up -d app2-instance-a app2-instance-b
+[+] Running 5/5
+ ✔ Container proy_unidad3_sistdistribuidos-postgres-replica-1  Running                                                                                     0.0s 
+ ✔ Container proy_unidad3_sistdistribuidos-postgres-haproxy-1  Running                                                                                     0.0s 
+ ✔ Container proy_unidad3_sistdistribuidos-postgres-primary-1  Started                                                                                     0.3s 
+ ✔ Container proy_unidad3_sistdistribuidos-app2-instance-a-1   Started                                                                                     0.3s 
+ ✔ Container proy_unidad3_sistdistribuidos-app2-instance-b-1   Started                                                                                     0.3s 
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose exec postgres-replica pg_isready -h postgres-replica -U orders -d ordersdb
+postgres-replica:5432 - accepting connections
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> Invoke-RestMethod -Method Post -Uri http://localhost:8000/orders -Body '{"product_id":1,"qty":1}' -ContentType 'application/json'
+
+order                                                                             stock                                      report
+-----                                                                             -----                                      ------
+@{id=4; product_id=1; qty=1; status=created; created_at=2025-12-03T15:34:09.872Z} @{id=1; name=Producto de prueba; stock=19} @{id=2; order_id=4; status=crea... 
+
+
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos> docker compose logs --tail=200 postgres-watchdog postgres-haproxy
+postgres-haproxy-1  | Connect from 172.18.0.16:47430 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43622 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:50378 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:58908 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:54262 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:52554 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:56674 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:38458 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59800 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:40758 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:50640 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59812 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49334 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46466 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49954 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:33404 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:45528 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:60112 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53086 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53672 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53326 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:52710 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:36090 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46156 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:36194 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:57204 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:45710 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54116 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:33876 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:50102 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49858 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:42744 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53382 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:39698 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:39510 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:42434 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35888 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:38640 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:38280 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:33958 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53834 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:59754 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49416 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:55662 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:55724 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47008 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:59508 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:36848 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:56020 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:49250 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:36444 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54884 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49576 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54860 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:36432 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:47886 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:59066 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:57334 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:50236 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:55718 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:56690 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47106 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:37686 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:48288 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58536 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43522 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:36906 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:52052 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46496 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:56262 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:37432 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:50140 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:44250 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:56424 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:57484 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:45098 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:58506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58470 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:37148 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:48132 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:47204 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:34936 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43894 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35026 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38742 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:59198 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:40408 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:56016 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34340 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:39116 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46536 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:44560 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:37498 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38858 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:60374 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53082 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:42840 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:50306 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:44420 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46030 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:45344 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46662 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:44318 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:56130 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:48056 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:50622 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:55030 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:38298 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:52138 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53788 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:57010 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43986 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:44088 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:60830 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:49466 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:36942 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:36500 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:39070 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:52036 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58136 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:39108 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:55558 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:33528 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53756 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:57520 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:48162 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:58790 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53956 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:41222 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38014 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46454 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:36394 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:33804 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:33232 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:55752 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46478 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58196 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:33564 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58728 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:57876 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:57610 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:34974 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43556 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54342 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53490 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:37548 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58444 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:33834 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43954 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:37628 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47978 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:33018 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:58508 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:34306 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:49828 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:45584 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:50796 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:37576 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:57356 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58714 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:56006 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:51186 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Server postgres_cluster/primary is DOWN, reason: Layer4 timeout, info: " at initial connection step of tcp-check", check duration: 3006ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+postgres-haproxy-1  | [WARNING]  (8) : Server postgres_cluster/primary is DOWN, reason: Layer4 timeout, info: " at initial connection step of tcp-check", check duration: 3006ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+postgres-haproxy-1  | Server postgres_cluster/primary is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+postgres-haproxy-1  | [WARNING]  (8) : Server postgres_cluster/primary is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+postgres-haproxy-1  | Connect from 172.18.0.15:51038 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:41860 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:54460 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:45352 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:38862 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:44928 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:45160 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:42604 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:47180 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:37772 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43140 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:47114 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | [WARNING]  (8) : Server postgres_cluster/primary is DOWN, reason: Layer4 timeout, info: " at initial connection step of tcp-check", check duration: 3001ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+postgres-haproxy-1  | Server postgres_cluster/primary is DOWN, reason: Layer4 timeout, info: " at initial connection step of tcp-check", check duration: 3001ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+postgres-haproxy-1  | Server postgres_cluster/primary is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+postgres-haproxy-1  | [WARNING]  (8) : Server postgres_cluster/primary is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 1 backup servers online. 0 sessions requeued, 0 total in queue.
+postgres-haproxy-1  | Connect from 172.18.0.15:54298 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58294 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:32934 to 172.18.0.11:5432 (postgres_cluster/TCP)
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58294 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:32934 to 172.18.0.11:5432 (postgres_cluster/TCP)
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos>
+
+
+
+
+
+
+
+
+
+
+
+
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58294 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:32934 to 172.18.0.11:5432 (postgres_cluster/TCP)
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos>
+
+
+
+
+
+
+
+
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58294 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:32934 to 172.18.0.11:5432 (postgres_cluster/TCP)
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos>
+
+postgres-haproxy-1  | Connect from 172.18.0.16:53474 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:47636 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:43032 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:46602 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:34588 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:46270 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:35346 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:35304 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:59506 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:53540 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:43982 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:58294 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.16:38736 to 172.18.0.11:5432 (postgres_cluster/TCP)
+postgres-haproxy-1  | Connect from 172.18.0.15:32934 to 172.18.0.11:5432 (postgres_cluster/TCP)
+PS C:\Users\javig\Desktop\Proy_Unidad3_SistDistribuidos>
