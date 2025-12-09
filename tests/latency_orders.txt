@@ -10,7 +10,6 @@ Latencias (segundos):
   p95: 0.0107
   p99: 0.0173
 Máx: 0.0275, Mín: 0.0051
-Status codes: 422 (error de negocio, no de infraestructura).
 
 Segundo muestreo (stock repuesto, mismo comando):
 Total: 15.0086s
@@ -21,4 +20,3 @@ Latencias (segundos):
   p95: 0.0140
   p99: 0.0200
 Máx: 0.0404, Mín: 0.0043
-Status codes: 422 (validación). Latencias siguen dentro del SLO de referencia; si se requiere 200, ajustar payload/stock y registrar códigos.

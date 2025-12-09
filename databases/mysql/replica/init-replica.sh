@@ -34,6 +34,8 @@ CHANGE REPLICATION SOURCE TO
   SOURCE_LOG_POS=${POS},
   GET_SOURCE_PUBLIC_KEY=1;
 START REPLICA;
+SET GLOBAL read_only=1;
+SET GLOBAL super_read_only=1;
 SQL
 
 echo "Replica configurada."
